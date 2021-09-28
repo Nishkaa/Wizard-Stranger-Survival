@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class ThirdPersonMovement : MonoBehaviour
 {
- 
+    public float jumpSpeed = 8.0F;
+    public float gravity = 20.0F;
+    private Vector3 moveDirection = Vector3.zero;
+
+
 
     public CharacterController controller;
+
     public Transform cam;
 
     public float speed = 6f;
@@ -14,6 +19,10 @@ public class ThirdPersonMovement : MonoBehaviour
 
     float turnSmoothVelocity;
 
+    private void Start()
+    {
+        controller = GetComponent<CharacterController>();
+    }
 
     void Update()
     {
@@ -34,5 +43,12 @@ public class ThirdPersonMovement : MonoBehaviour
 
           
         }
+        //character jumping
+        if (controller.isGrounded && Input.GetButton("Jump"))
+        {
+            moveDirection.y = jumpSpeed;
+        }
+        moveDirection.y -= gravity * Time.deltaTime;
+        controller.Move(moveDirection * Time.deltaTime);
     }
 }
