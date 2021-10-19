@@ -9,7 +9,6 @@ public class ThirdPersonMovement : MonoBehaviour
     private Vector3 moveDirection = Vector3.zero;
 
 
-
     public CharacterController controller;
 
     public Transform cam;
@@ -22,10 +21,13 @@ public class ThirdPersonMovement : MonoBehaviour
     private void Start()
     {
         controller = GetComponent<CharacterController>();
+
+        Cursor.visible = false;
     }
 
     void Update()
     {
+
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
         Vector3 direction = new Vector3(horizontal, 0f, vertical);
@@ -41,13 +43,17 @@ public class ThirdPersonMovement : MonoBehaviour
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             controller.Move(moveDir * speed * Time.deltaTime);
 
-          
+
         }
+        
         //character jumping
+
         if (controller.isGrounded && Input.GetButton("Jump"))
-        {
-            moveDirection.y = jumpSpeed;
-        }
+            {
+                moveDirection.y = jumpSpeed;
+
+            }
+       
         moveDirection.y -= gravity * Time.deltaTime;
         controller.Move(moveDirection * Time.deltaTime);
     }
